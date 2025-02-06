@@ -68,6 +68,7 @@ To reproduce our results, run:
 # Semantic Regenerative Attack
 ```bash
 python run_Benchmark_SemanticRegen.py
+```
 
 # Baseline Attacks
 ```bash
@@ -90,3 +91,34 @@ bash scripts/run_Benchmark_SemanticRegen.sh --wm_type StableSig
 For Invisible Watermarks:
 ```bash
 bash scripts/run_Benchmark_SemanticRegen.sh --wm_type Invisible
+
+## Analyzing Results
+We provide Jupyter notebooks for analyzing the results:
+
+| Notebook                                      | Purpose                                |
+|-----------------------------------------------|----------------------------------------|
+| `01-Benchmarking_Watermark_Attack_Removal.ipynb`  | Benchmarking watermark removal attacks |
+| `02-Benchmarking_Image_Quality.ipynb`         | Image quality evaluation               |
+| `02-Benchmarking_Image_Quality_CLIP_scores.ipynb` | CLIP score analysis                    |
+| `02-Benchmarking_Image_Quality_plots.ipynb`   | Visualization of results               |
+| `03-Reliability_Experiments.ipynb`           | Robustness and reliability testing     |
+
+## Citation
+If you find SemanticRegen useful, please cite our work!
+@article{SemanticRegen2025,
+  author = {Tallam, Krti and Cava, John and Geniesse, Caleb and Erichson, Benjamin and Mahoney, Michael W.},
+  title = {Removing Watermarks with Partial Regeneration using Semantic Information},
+  year = {2025},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CV}
+}
+
+🔗 References
+WAVES Benchmark
+TreeRing Watermarking
+StegaStamp
+Stable Signature
+
+### Developed by
+👤 Krti Tallam, John Kevin Cava, Caleb Geniesse
+📧 Contact: ktallam@berkeley.edu
