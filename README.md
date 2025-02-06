@@ -1,195 +1,164 @@
-# SemanticRegen
-Semantic Regenerative Attacks for Watermark Removal
+SemanticRegen: Semantic Regenerative Attacks for Watermark Removal
+SemanticRegen is a novel approach for removing watermarks using semantic inpainting and regenerative attacks. This repository provides the full implementation of our method, along with baseline comparisons and benchmarking tools.
 
-This code was initially adapted from [YuxinWenRick/tree-ring-watermark](https://github.com/YuxinWenRick/tree-ring-watermark). Other attackers and watermarks used for benchmarking were adapted from other codebases, including [XuandongZhao/WatermarkAttacker](https://github.com/XuandongZhao/WatermarkAttacker) and [umd-huang-lab/WAVES](https://github.com/umd-huang-lab/WAVES).
+Overview
+This project builds on existing watermarking research, incorporating deep learning techniques to remove digital watermarks while maintaining image integrity. Our approach leverages:
 
-To ensure that our code is runnable and reproducible, we included several files that are not ours (e.g., `optim_utils.py`, `txt2img.py`). To clarify our contributions, the code we developed is contained in the following files:
+Visual Question Answering (VQA) via BLIP2 to identify key objects
+Segmentation models like LangSAM to isolate prominent elements
+Stable Diffusion inpainting for seamless watermark removal
+We benchmark against established attacks and watermarking schemes, including:
 
+TreeRing Watermark (Wen et al.)
+StegaStamp (Google)
+Stable Signature (Meta)
+Invisible Watermarks (DWT/DCT)
+Installation
+1. Clone the Repository
+bash
+Copy
+Edit
+git clone https://github.com/your-username/SemanticRegen.git
+cd SemanticRegen
+2. Install Required Dependencies
+You can install the necessary Python packages via:
 
-* `run_Benchmark_SemanticRegen.py` 
-* `run_Benchmark_Baselines.py` 
-* `scripts/run_Benchmark_SemanticRegen.sh` 
-* `scripts/run_Benchmark_Baselines.sh` 
-* `example_commands.sh`
-* `01-Benchmarking_Watermark_Attack_Removal.ipynb`
-* `02-Benchmarking_Image_Quality.ipynb`
-* `02-Benchmarking_Image_Quality_CLIP_scores.ipynb`
-* `02-Benchmarking_Image_Quality_plots.ipynb`
-* `03-Reliability_Experiments.ipynb`
-* `requirements.txt`
-* `README.md`
+bash
+Copy
+Edit
+pip install -r requirements.txt
+Key Dependencies
+numpy
+torch==1.13.0
+torchvision
+torchmetrics
+transformers==4.31.0
+diffusers==0.11.1
+opencv-python
+open_clip_torch
+invisible-watermark
+luca-medeiros/lang-segment-anything
+Required Models
+Several pre-trained models are needed for running the watermark removal experiments. Download and place them in the models/ directory:
 
+Model Name	Source
+sam_vit_h_4b8939.pth	LangSAM
+stable_signature.onnx	WAVES
+stega_stamp.onnx	WAVES
+Installation of External Dependencies
+1. Install LangSAM
+LangSAM is used for segmentation. Install it via:
 
-
-
-
-
-
-## **Setup Notes**
-
-### **Required Python Packages**
-
-* [numpy](www.numpy.org)
-* [torch==1.13.0]()
-* [torchvision]()
-* [torchmetrics]()
-* [transformers==4.31.0]()
-* [diffusers==0.11.1]()
-* [opencv-python]()
-* [open_clip_torch]()
-* [invisible-watermark]()
-* [luca-medeiros/lang-segment-anything](https://github.com/luca-medeiros/lang-segment-anything.git) (see below)
-
-
-_For a full list of packages and required versions, see `requirements.txt`._
-
-
-### **Required Models**
-
-Note, to run our code you will need to download several models and place them in the `models` folder.
-* [sam_vit_h_4b8939.pth](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth)
-* [stable_signature.onnx](https://github.com/umd-huang-lab/WAVES/blob/458274bdc39cfbf1e704e651559c206e9df19ee6/decoders/stable_signature.onnx) (from [WAVES](https://github.com/umd-huang-lab/WAVES))
-* [stega_stamp.onnx](https://github.com/umd-huang-lab/WAVES/blob/458274bdc39cfbf1e704e651559c206e9df19ee6/decoders/stega_stamp.onnx) (from [WAVES](https://github.com/umd-huang-lab/WAVES))
-
-
-
-
-### **Installing `diffusers`**
-
-You will need to install the `diffusers` package. For reproducibility, we adapted a version from the following [XuandongZhao/WatermarkAttacker](https://github.com/XuandongZhao/WatermarkAttacker) codebase (e.g., [`src/diffusers`](https://github.com/XuandongZhao/WatermarkAttacker/tree/c0020c7a7819f39be73420403d857d705d7ffeac/src/diffusers)).
-
-
-### **Installing `LangSAM`**
-
-Note, you can try installing `LangSAM` using `pip`, e.g.,
-```
+bash
+Copy
+Edit
 pip install git+https://github.com/luca-medeiros/lang-segment-anything.git
-```
+If this fails, install manually:
 
-If this fails, you can try installing manually. Note, you will need to install `GroundingDINO` first.
-
-To install `GroundingDINO`, run the following
-```
-pip install torch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 --index-url https://download.pytorch.org/whl/cu118
-git clone https://github.com/IDEA-Research/GroundingDINO.git
-cd GroundingDINO/
-pip install -e .
-```
-
-Then, to install `LangSAM`, run the following
-```
+bash
+Copy
+Edit
 git clone https://github.com/luca-medeiros/lang-segment-anything
 cd lang-segment-anything
 pip install -e .
-```
+2. Install Stable Diffusion (for StableSig Experiments)
+To run Stable Signature watermark experiments, install Stable Diffusion:
 
-
-
-### **Installing `stablediffusion` (for `StableSig` experiments)**
-
-To run experiments on the `StableSig` watermark, you will need to install [`stablediffusion`](https://github.com/Stability-AI/stablediffusion) from source.
-
-To install `stablediffusion` from source, run the following:
-```
+bash
+Copy
+Edit
 git clone https://github.com/Stability-AI/stablediffusion
 cd stablediffusion
 pip install -e .
-```
+Additional dependencies:
 
-Note, you may need to install the following packages:
-```
+bash
+Copy
+Edit
 pip install dlib ai_tools cognitive_face zprint pytorch-lightning==1.4.2 torchmetrics==0.8.2 kornia==0.6 open-clip-torch==2.7.0
-```
+Usage
+Running Benchmark Experiments
+Our experiments can be replicated using the following scripts:
 
-After installing `stablediffusion`, you will need to make three important changes to the codebase:
+1. Run Semantic Regenerative Attack
+bash
+Copy
+Edit
+bash scripts/run_Benchmark_SemanticRegen.sh --wm_type <WATERMARK_TYPE>
+2. Run Baseline Watermark Attacks
+bash
+Copy
+Edit
+bash scripts/run_Benchmark_Baselines.sh --wm_type <WATERMARK_TYPE> --attack_type <ATTACK_METHOD>
+Replace <WATERMARK_TYPE> with one of:
 
-* copy the `txt2img.py` file we provide into `stablediffusion/scripts`
-* copy the `models/sd2_decoder.pth` model we provide into `stablediffusion/checkpoints`
-* download [`stable-diffusion-2-1-base/v2-1_512-ema-pruned.ckpt`](https://huggingface.co/stabilityai/stable-diffusion-2-1-base/blob/main/v2-1_512-ema-pruned.ckpt) and move it into `stablediffusion/checkpoints`
+TreeRing
+StegaStamp
+StableSig
+Invisible
+And <ATTACK_METHOD> with:
 
-For more detailed instructions, please see: https://github.com/facebookresearch/stable_signature
+Rinse4x
+Distortion
+Example Commands
+TreeRing
+bash
+Copy
+Edit
+bash scripts/run_Benchmark_SemanticRegen.sh --wm_type TreeRing --w_channel 3 --w_pattern ring
+bash
+Copy
+Edit
+bash scripts/run_Benchmark_Baselines.sh --wm_type TreeRing --w_channel 3 --w_pattern ring --attack_type Rinse4x
+StegaStamp
+bash
+Copy
+Edit
+bash scripts/run_Benchmark_SemanticRegen.sh --wm_type StegaStamp
+bash
+Copy
+Edit
+bash scripts/run_Benchmark_Baselines.sh --wm_type StegaStamp --attack_type Rinse4x
+StableSig
+bash
+Copy
+Edit
+bash scripts/run_Benchmark_SemanticRegen.sh --wm_type StableSig
+bash
+Copy
+Edit
+bash scripts/run_Benchmark_Baselines.sh --wm_type StableSig --attack_type Rinse4x
+Analysis & Evaluation
+After running experiments, results are stored as .csv files. We provide Jupyter notebooks for analysis:
 
+01-Benchmarking_Watermark_Attack_Removal.ipynb
+02-Benchmarking_Image_Quality.ipynb
+02-Benchmarking_Image_Quality_CLIP_scores.ipynb
+02-Benchmarking_Image_Quality_plots.ipynb
+03-Reliability_Experiments.ipynb
+Citation
+If you use this work in your research, please cite our paper:
 
+bibtex
+Copy
+Edit
+@article{yourpaper2025,
+  author = {Tallam, Krti and Cava, John and Geniesse, Caleb and Erichson, Benjamin and Mahoney, Michael W.},
+  title = {Semantic Regenerative Attacks for Watermark Removal},
+  journal = {arXiv preprint},
+  year = {2025}
+}
+License
+This project is licensed under the MIT License.
 
+Acknowledgments
+This work is adapted from multiple repositories:
 
+YuxinWenRick/tree-ring-watermark
+XuandongZhao/WatermarkAttacker
+umd-huang-lab/WAVES
+We extend our gratitude to the creators of these projects for their foundational work in watermarking research.
 
+Contact
+For questions, issues, or contributions, feel free to open an issue or reach out.
 
-
-
-
-## **Example Usage**
-
-Our experiments can be replicated by running the following files:
-
-* `run_Benchmark_SemanticRegen.py` to evaluate our Semantic Regenerative Attack
-* `run_Benchmark_Baselines.py` to evaluate Image Distortion and other attacks
-
-Each file has the option to evaluate the attacks (`--attack_type`) on different types of watermarks (e.g., `--wm_type`). We provide additional scripts to wrap these commands with some default arguments (e.g., `--start 1000 --end 2000` defining the prompts to run) and another file (`example_commands.sh`) with some example command-lines using these scripts. 
-
-
-### **TreeRing**
-
-For example, to run our Semantic Regenerative Attack on Tree Ring watermarks, run the folllowing:
-
-```
-bash scripts/run_Benchmark_SemanticRegen.sh --wm_type TreeRing --w_channel 3 --w_pattern ring 
-```
-
-To run Rinse4x on Tree Ring watermarks, run the folllowing:
-```
-bash scripts/run_Benchmark_Baselines.sh --wm_type TreeRing --w_channel 3 --w_pattern ring --attack_type Rinse4x 
-```
-
-### **StegaStamp**
-
-To run our Semantic Regenerative Attack on StegaStamp watermarks, run the folllowing:
-
-```
-bash scripts/run_Benchmark_SemanticRegen.sh --wm_type StegaStamp 
-```
-
-To run Rinse4x on StegaStamp watermarks, run the folllowing:
-```
-bash scripts/run_Benchmark_Baselines.sh --wm_type StegaStamp  --attack_type Rinse4x 
-```
-
-### **StableSig**
-
-To run our Semantic Regenerative Attack on StableSig watermarks, run the folllowing:
-
-```
-bash scripts/run_Benchmark_SemanticRegen.sh --wm_type StableSig 
-```
-
-To run Rinse4x on StableSig watermarks, run the folllowing:
-```
-bash scripts/run_Benchmark_Baselines.sh --wm_type StableSig  --attack_type Rinse4x 
-```
-
-### **Invisible**
-
-To run our Semantic Regenerative Attack on Invisible watermarks, run the folllowing:
-
-```
-bash scripts/run_Benchmark_SemanticRegen.sh --wm_type StableSig 
-```
-
-To run Rinse4x on Invisible watermarks, run the folllowing:
-```
-bash scripts/run_Benchmark_Baselines.sh --wm_type Invisible  --attack_type Rinse4x 
-```
-
-
-
-
-## **Example Analysis**
-
-We provide additional Jupyter notebooks showing how we analyzed the results produced by our experiments. Note, to run these notebooks, you will first need to run some of the experiments, as described above. Each experiment produces a `.csv` file of metrics computed for each prompt (e.g., p-values and bit accuracies, image quality scores). You can select which experiments to include in the analysis by changing the `experiment_names` variable.
-
-These analysis notebooks roughly follow the results section of the paper, including:
-
-* `01-Benchmarking_Watermark_Attack_Removal.ipynb`
-* `02-Benchmarking_Image_Quality.ipynb`
-* `02-Benchmarking_Image_Quality_CLIP_scores.ipynb`
-* `02-Benchmarking_Image_Quality_plots.ipynb`
-* `03-Reliability_Experiments.ipynb`
