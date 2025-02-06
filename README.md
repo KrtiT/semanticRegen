@@ -193,4 +193,3 @@ These analysis notebooks roughly follow the results section of the paper, includ
 * `02-Benchmarking_Image_Quality_CLIP_scores.ipynb`
 * `02-Benchmarking_Image_Quality_plots.ipynb`
 * `03-Reliability_Experiments.ipynb`
-
