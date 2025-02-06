@@ -3,7 +3,7 @@
 
 This repository contains code for **SemanticRegen**, a framework for **removing watermarks** from images using **semantic regeneration**. Our approach leverages **Visual Question Answering (VQA)**, **segmentation**, and **stable diffusion inpainting** to systematically identify and remove various types of watermarks while preserving image integrity.
 
-## 📌 Overview
+## Overview
 SemanticRegen is a **novel attack** on watermarking techniques that removes embedded watermarks without introducing significant distortions. Our approach:
 - **Identifies prominent objects** using a **VQA captioning model**.
 - **Segments** the foreground object while isolating watermarked areas.
@@ -17,7 +17,7 @@ This implementation is adapted from existing frameworks, including:
 
 ---
 
-## 🛠 Installation
+## Installation
 
 ### **Required Models**
 Download the following models and place them in the `models/` folder:
@@ -104,8 +104,10 @@ We provide Jupyter notebooks for analyzing the results:
 | `03-Reliability_Experiments.ipynb`           | Robustness and reliability testing     |
 
 ## Citation
-If you find SemanticRegen useful, please cite our work!
 
+If you find **SemanticRegen** useful, please cite our work:
+
+```bibtex
 @article{SemanticRegen2025,
   author = {Tallam, Krti and Cava, John and Geniesse, Caleb and Erichson, Benjamin and Mahoney, Michael W.},
   title = {Removing Watermarks with Partial Regeneration using Semantic Information},
@@ -114,7 +116,8 @@ If you find SemanticRegen useful, please cite our work!
   primaryClass = {cs.CV}
 }
 
-## 🔗 References
+
+## References
 
 - [WAVES Benchmark](https://github.com/umd-huang-lab/WAVES)
 - [TreeRing Watermarking](https://github.com/YuxinWenRick/tree-ring-watermark)
