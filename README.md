@@ -115,7 +115,7 @@ If you find **SemanticRegen** useful, please cite our work:
   archivePrefix = {arXiv},
   primaryClass = {cs.CV}
 }
-
+```
 
 ## References
 
