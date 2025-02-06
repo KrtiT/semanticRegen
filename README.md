@@ -65,30 +65,30 @@ cp models/sd2_decoder.pth stablediffusion/checkpoints/
 ## Running Experiments
 To reproduce our results, run:
 
-# Semantic Regenerative Attack
+### Semantic Regenerative Attack
 ```bash
 python run_Benchmark_SemanticRegen.py
 ```
 
-# Baseline Attacks
+### Baseline Attacks
 ```bash
 python run_Benchmark_Baselines.py
 ```
-# Example Commands
+### Example Commands
 To evaluate TreeRing Watermarks, run:
 
 ```bash
 bash scripts/run_Benchmark_SemanticRegen.sh --wm_type TreeRing --w_channel 3 --w_pattern ring
 ```
-# For StegaStamp Watermarks:
+### For StegaStamp Watermarks:
 ```bash
 bash scripts/run_Benchmark_SemanticRegen.sh --wm_type StegaStamp
 ```
-# For StableSig Watermarks:
+### For StableSig Watermarks:
 ```bash
 bash scripts/run_Benchmark_SemanticRegen.sh --wm_type StableSig
 ```
-# For Invisible Watermarks:
+### For Invisible Watermarks:
 ```bash
 bash scripts/run_Benchmark_SemanticRegen.sh --wm_type Invisible
 ```
@@ -114,11 +114,13 @@ If you find SemanticRegen useful, please cite our work!
   primaryClass = {cs.CV}
 }
 
-🔗 References
-WAVES Benchmark
-TreeRing Watermarking
-StegaStamp
-Stable Signature
+## 🔗 References
+
+- [WAVES Benchmark](https://github.com/umd-huang-lab/WAVES)
+- [TreeRing Watermarking](https://github.com/YuxinWenRick/tree-ring-watermark)
+- [StegaStamp](https://github.com/tancik/StegaStamp)
+- [Stable Signature](https://github.com/facebookresearch/stable_signature)
+
 
 ### Developed by
 👤 Krti Tallam, John Kevin Cava, Caleb Geniesse
