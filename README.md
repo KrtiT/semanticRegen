@@ -128,3 +128,4 @@ If you find **SemanticRegen** useful, please cite our work:
 ### Developed by
 👤 Krti Tallam, John Kevin Cava, Caleb Geniesse
 📧 Contact: ktallam@berkeley.edu
+
