@@ -116,6 +116,23 @@ If you find **SemanticRegen** useful, please cite our work:
   primaryClass = {cs.CV}
 }
 ```
+## Compute & Licenses
+
+### Compute Used
+We used **NVIDIA A100 GPUs**, totaling approximately **200 GPU node hours**.
+
+### Licenses for Assets
+- **MiniChat-MA**  
+  <sub>License: LLAMA2</sub>
+
+- **LangSam**  
+  <sub>License: Apache 2.0</sub>
+
+- **BLIP2**  
+  <sub>License: BSD 3-Clause</sub>
+
+- **StabilityAI Inpainting**  
+  <sub>License: CreativeML Open RAIL++-M</sub>
 
 ## References
 
@@ -128,4 +145,3 @@ If you find **SemanticRegen** useful, please cite our work:
 ### Developed by
 👤 Krti Tallam, John Kevin Cava, Caleb Geniesse
 📧 Contact: ktallam@berkeley.edu
-
