@@ -144,5 +144,4 @@ We used **NVIDIA A100 GPUs**, totaling approximately **200 GPU node hours**.
 
 ### Developed by
 👤 Krti Tallam, John Kevin Cava, Caleb Geniesse
-📧 Contact: ktallam@berkeley.edu
-
+📧 Contact: krtital@gmail.com
